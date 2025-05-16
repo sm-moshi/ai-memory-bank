@@ -1,0 +1,6 @@
+*.md
+!core/*.md
+!systemPatterns/*.md
+!techContext/*.md
+!progress/*.md
+!README.md
