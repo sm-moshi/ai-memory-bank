@@ -1,30 +1,28 @@
 # Active Context
 
 ## Current Work Focus
-- Integrate new MCP prompt constants (health check, file missing, update confirmation, structure guide, usage tip) into extension and webview actions for improved agent and user feedback.
-- Continue refactor to remove Express and use Cursor/VS Code APIs for all communication (in progress).
-- Ensure all MCP tool logic is Cursor-first (Cursor compatibility is the top priority).
-- Enhance webview with advanced error/status feedback and file preview/diff features.
-- Prepare for version control integration for memory bank files.
+- Maintain robust automated testing using Vitest, with scripts and configuration files in place.
+- Ensure CI/CD workflows in GitHub Actions follow best practices: concurrency control, artifact uploads, caching, and job timeouts.
+- Continue to improve the webview UI and agentic logic for clarity, maintainability, and idiomatic design.
+- Use batch review tools for memory bank management and keep documentation up to date.
+- Address workflow validation issues promptly and document all changes with comprehensive commit messages.
 
 ## Recent Changes
-- Modularised memory bank structure (`core/`, `systemPatterns/`, `techContext/`, `progress/`).
-- Added robust MCP server with error handling and port failover.
-- Implemented webview UI for memory bank management (init, update, feedback).
-- Refactored build and task automation (Justfile, scripts).
-- Public documentation moved to `docs/`, private memory in `memory-bank/`.
+- Vitest test suite and scripts added.
+- GitHub Actions workflows enhanced for reliability and best practices.
+- Webview UI refactored for better usability and maintainability.
+- Batch memory bank review tool implemented.
+- Improved documentation and change tracking.
 
 ## Next Steps
-- Complete removal of Express and finalise Cursor-first refactor.
-- Implement version control integration for memory bank files.
-- Add visualisation tools for memory relationships in the webview.
-- Gather user feedback for v0.2.x and plan for v1.0.0.
-- Expand automated test coverage and CI/CD.
+- Expand automated test coverage.
+- Further polish the webview UI and agentic logic.
+- Continue refining CI/CD workflows and documentation.
+- Ensure all changes are reflected in the memory bank and project documentation.
 
 ## Active Decisions and Considerations
-- Prioritise Cursor compatibility; VS Code compatibility is a bonus.
-- Plan for version control and remote/cloud support in future releases.
-- Use Git Flow for release management.
-- Maintain robust error handling and clear user feedback throughout development.
+- Prioritise clarity, maintainability, and idiomatic code.
+- Use comprehensive commit messages and accurate change summaries.
+- Keep the memory bank and documentation in sync with project progress.
 
 _Last updated: 2025-05-18_
