@@ -1,5 +1,16 @@
 # System Patterns Index
 
+This folder documents the internal, modular, and development-focused system patterns for the AI Memory extension's memory bank. These patterns support robust, context-aware AI workflows in Cursor and VS Code, and guide ongoing development and future enhancements.
+
+## System Architecture & Patterns (Summary)
+- Modular memory bank: `core/`, `systemPatterns/`, `techContext/`, `progress/`
+- MCP server (CLI/stdio) exposes memory bank as resources/tools
+- Webview dashboard for user actions and feedback
+- Self-healing logic ensures all required files are present
+- Service-oriented, Cursor-first architecture
+- Async, robust file operations with readiness checks
+- Planner tools and command handler for `/memory` commands
+
 ## System Architecture
 - Modular memory bank with subfolders: `core/`, `systemPatterns/`, `techContext/`, `progress/`.
 - MCP server exposes memory bank as resources and tools, with robust error handling and port failover.
@@ -23,7 +34,7 @@
 - Planner tools for extracting and updating project plans (see `EXPERIMENTAL-MCP-PLAN.md`).
 - **CLI/stdio transport pattern for MCP server, replacing legacy HTTP/SSE for Cursor 0.50+.**
 
-## Component Relationships (Mermaid)
+## Component Relationships
 ```mermaid
 graph TD
     Extension --> MemoryBankService
@@ -34,4 +45,4 @@ graph TD
     CommandHandler --> MCPServer
 ```
 
-_Last updated: 2025-05-11 🐹_
+_Last updated: 2025-05-18_

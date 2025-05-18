@@ -11,15 +11,19 @@
 
 ## What's left to build
 
-- Expand automated test coverage.
-- Continue polishing the webview UI and agentic logic.
+- Complete Express removal and migrate all communication to Cursor/VS Code APIs (last major refactor in progress).
+- Expand automated test coverage for MCP tools, extension activation, and command registration.
+- Implement user-configurable log levels and advanced webview error/event reporting.
+- Add advanced UI features: refresh, preview, diff, visualisation.
+- Integrate version control for memory bank files.
+- Expose 'AI Memory: Create Memory Bank Rule' as a command in the command palette.
 - Further refine CI/CD workflows and documentation.
 - Add more advanced features to the memory bank and webview.
 
 ## Current status
 
 - All core features are stable and in use.
-- Ongoing work on advanced features, polish, and documentation.
+- Ongoing work on Express removal, advanced UI, automated tests, CI/CD, and version control integration.
 
 ## Known issues
 
@@ -28,7 +32,10 @@
 
 ## Next Steps
 
-- See "What's left to build" above for actionable next steps.
+- Complete Express removal and migrate to stdio transport as default.
+- Expand automated test coverage and CI/CD.
+- Implement advanced webview features and user-configurable log levels.
+- Integrate version control and expose new commands as planned.
 
 ## Principles
 

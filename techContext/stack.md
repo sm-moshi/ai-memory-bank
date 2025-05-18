@@ -1,28 +1,33 @@
 # Technology Stack
 
-This project uses a modern, modular stack for both backend and frontend extension development:
+## Backend (Extension & MCP Server)
+- **Node.js** (LTS)
+- **TypeScript** (strict, ES2022, NodeNext)
+- **@modelcontextprotocol/sdk** (MCP protocol and memory bank tools)
+- **zod** (schema validation)
+- **express** (being removed)
+- **cors** (being removed)
 
-## Core Technologies
-- **Node.js** (LTS) — Extension backend, MCP server, and CLI tools
-- **TypeScript** — Type safety and maintainability
-- **VS Code Extension API** — Integration with VS Code and Cursor
-- **@modelcontextprotocol/sdk** — MCP protocol and memory bank tools
+## Frontend (Webview)
+- **React 19**
+- **React DOM**
+- **Tailwind CSS 4**
+- **Vite** (dev server and build)
+- **react-icons**
+- **@vscode-elements/elements**
+- **@vscode-elements/react-elements**
 
-## Webview (Frontend)
-- **React 19** — UI components
-- **Vite** — Fast dev server and build tool
-- **Tailwind CSS 4** — Utility-first styling
-- **react-icons** — Consistent iconography
-
-## Tooling
-- **esbuild** — Fast bundling
-- **pnpm** — Monorepo package management
-- **eslint** — Linting
-- **Justfile** — Task automation
+## Build & Tooling
+- **esbuild** (extension/server bundling)
+- **vite** (webview bundling)
+- **pnpm** (monorepo package management)
+- **eslint** (linting)
+- **Justfile** (task automation)
 
 ## Testing
-- **Node.js test runner** — Automated tests
+- **Vitest** (unit and integration tests)
+- **@vscode/test-cli** (extension tests)
 
 ---
 
-_Last updated: 2025-05-10 🐹_
+_Last updated: 2025-05-18_

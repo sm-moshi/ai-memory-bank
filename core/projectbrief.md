@@ -1,20 +1,19 @@
 # Project Brief
 
-The AI Memory extension is designed to empower Cursor and VS Code users with a persistent, modular, and user-editable memory bank. This enables context-aware AI interactions, seamless context resets, and a more reliable development workflow.
+This is the internal, modular, and persistent memory bank for the AI Memory extension, enabling robust, context-aware AI workflows in Cursor and VS Code. It is designed for development, testing, and ongoing enhancement of the extension's memory features.
 
 ## Vision
-- Enable robust, context-driven AI assistance that persists across sessions and resets.
+- Enable reliable, context-driven AI assistance that persists across sessions and resets.
 - Provide a modular memory bank structure for project, product, and technical context.
-- Support both Cursor and VS Code environments for maximum flexibility.
+- Support both Cursor and VS Code environments, with a Cursor-first focus.
 
 ## Core Requirements
 - Modular memory bank with subfolders: `core/`, `systemPatterns/`, `techContext/`, `progress/`.
-- MCP server for robust, context-driven file access and updates.
+- MCP server (CLI/stdio) for robust, context-driven file access and updates.
 - Webview UI for memory bank management, including initialisation and updates.
-- Compatibility with Cursor (0.49+) and VS Code.
+- Self-healing logic to auto-create missing files from templates.
 - Migration logic for flat → modular memory bank structures.
 - Public documentation in `docs/`, private memory in `memory-bank/`.
-- **MCP CLI/stdio entrypoint for Cursor 0.50+ compatibility, enabling context-agnostic operation and robust integration.**
 
 ## Project Goals
 - Provide tools for initialisation, status, and updates of the memory bank.
@@ -33,4 +32,4 @@ The AI Memory extension is designed to empower Cursor and VS Code users with a p
 - Review feedback and logs for errors.
 - Follow Git Flow for release management.
 
-_Last updated: 2025-05-13_
+_Last updated: 2025-05-18 🐹_
