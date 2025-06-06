@@ -1,3 +1,3 @@
 # Progress Index
 
-*Summary of project progress*
+> *Summary of project progress*
