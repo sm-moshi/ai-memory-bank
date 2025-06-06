@@ -1,72 +1,72 @@
 # Project Brief
 
-> *Foundation document that shapes all other files*
+> AI Memory Extension for Cursor & VS Code - Production-ready memory bank system with MCP integration
 
-## Vision Statement
+## 🎯 Project Overview
 
-Create a robust AI Memory extension for Cursor/VS Code that enables persistent, intelligent memory management for AI assistants through MCP integration, with a beautiful webview interface and comprehensive file streaming performance optimizations.
+**AI Memory** is a mature, production-ready extension that provides persistent, context-aware memory for LLMs and AI agents in Cursor and VS Code. The extension implements a robust memory bank system using the Model Context Protocol (MCP) for seamless AI integration.
 
-## Core Requirements
-<!-- Essential functional requirements that define success -->
-- [x] ✅ MCP server implementation with stdio transport for Cursor compatibility
-- [x] ✅ Memory bank file management with template-based initialization
-- [x] ✅ Comprehensive async file operations with retry mechanisms and error boundaries
-- [x] ✅ Performance-optimized streaming for large files (>1MB) with chunked reading
-- [x] ✅ Input validation and security with Zod schemas and path sanitization
-- [x] ✅ VS Code extension architecture with proper activation and command structure
-- [x] ✅ React 19 webview with Tailwind 4 and modern build pipeline
-- [ ] 🔄 Metadata system with intelligent file categorization and search
-- [ ] 📅 Advanced AI integration features and context management
+**Current Version**: 0.8.0-dev.2
+**Target Platforms**: Cursor 0.50+, VS Code 1.96+
+**Architecture**: STDIO-based MCP server with React webview UI
 
-## Project Goals
-<!-- Specific, measurable objectives -->
-- **Primary Goal**: Deliver a production-ready AI Memory extension that enhances AI assistant capabilities in Cursor through persistent memory and intelligent context management
-- **Secondary Goals**:
-  - Achieve >90% test coverage with comprehensive unit and integration testing
-  - Implement streaming performance optimizations reducing memory usage by 75% for large files
-  - Create intuitive webview interface with modern UX patterns and VS Code design consistency
-  - Establish robust MCP architecture supporting future extensibility and third-party integrations
+## 🏗 Core Value Proposition
 
-## Project Scope
-<!-- What's included and explicitly excluded -->
-### In Scope
+- **Zero Configuration**: Auto-creates and manages structured memory bank
+- **High Performance**: Streaming operations, intelligent caching, async processing
+- **Security Hardened**: Comprehensive input validation, path traversal protection
+- **Self-Healing**: Auto-repair missing files, template-based recovery
+- **Modern Stack**: React 19, Tailwind 4, TypeScript 5.8, Rollup+SWC
 
-- Complete VS Code extension (VSIX) with webview interface
-- MCP server with comprehensive tool and resource implementations
-- Memory bank management with file templates and validation
-- Performance optimization through StreamingManager and FileOperationManager
-- Security hardening with input validation and CSP implementation
-- Modern build system using Rollup + SWC, Vite, and Biome
-- Comprehensive testing framework with Vitest and @vscode/test-cli
+## 🎯 Primary Goals
 
-### Out of Scope
+### Phase 1 (✅ COMPLETE)
 
-- Cloud-based memory synchronization (future consideration)
-- Multi-workspace memory sharing (Phase 3)
-- Real-time collaborative memory editing (future consideration)
-- Integration with non-Cursor IDEs (initial scope limited to VS Code API)
+- [x] Core architecture with clean separation of concerns
+- [x] MCP server implementation with STDIO transport
+- [x] Modular memory bank structure (core/, systemPatterns/, techContext/, progress/)
+- [x] Performance optimization with streaming and caching
+- [x] Security hardening with Zod validation
+- [x] React webview dashboard with VS Code Elements
+- [x] Comprehensive testing (>90% coverage)
+- [x] Modern build system (Rollup+SWC, Biome)
 
-## Success Criteria
-<!-- How will you know when this is successful? -->
-- [x] ✅ All 181 tests passing with >90% coverage
-- [x] ✅ Complete Phase 1 architecture implementation
-- [x] ✅ Streaming performance optimizations operational
-- [x] ✅ Security validation and error handling comprehensive
-- [ ] 🔄 Successful VS Code Marketplace publication
-- [ ] 📅 User adoption and positive feedback from early adopters
-- [ ] 📅 Integration testing with real-world Cursor workflows
+### Phase 2 (🔄 IN PROGRESS)
 
-## Key Constraints
-<!-- Technical, time, resource, or other limitations -->
-- **Platform Compatibility**: Must work seamlessly with Cursor's MCP implementation using stdio transport only
-- **Performance Requirements**: Large file operations must not block event loop; memory usage bounded and predictable
-- **Security Requirements**: All inputs validated; path traversal prevention; CSP compliance for webview
-- **Build Requirements**: Modern toolchain with fast compilation (SWC) and unified formatting (Biome)
-- **Code Quality**: British English throughout; comprehensive error handling with Result<T,E> pattern
+- [ ] AI metadata system for intelligent content organization
+- [ ] Enhanced performance layer integration
+- [ ] Advanced adapter infrastructure
+- [ ] Improved codebase structure optimization
 
-## Current Status: Phase 1 Complete ✅
+## 🏗 Architecture Principles
 
-**Phase 1 Core Architecture**: Successfully implemented async operations, performance optimization, security validation, and clean structure reorganization. All architectural foundations are now in place for advanced features.
+**Clean Architecture**: Utils → Services → Core → App layers
+**Dependency Injection**: Testable, modular service design
+**Result Pattern**: Explicit error handling throughout
+**Event-Driven**: Async operations with proper cleanup
+**Security First**: Input validation, path sanitization, resource limits
+
+## 🎯 Target Users
+
+**Primary**: Cursor users seeking persistent AI context
+**Secondary**: VS Code users with AI workflows
+**Developers**: Contributors to memory bank patterns
+
+## 📊 Success Metrics
+
+- **Adoption**: Extension installations and active users
+- **Performance**: Sub-100ms operations, <50MB memory footprint
+- **Reliability**: Zero data loss, graceful error recovery
+- **Developer Experience**: <30s build times, hot reload webview
+
+## 🛠 Technology Choices
+
+**Core Runtime**: Node.js 20 LTS, TypeScript 5.8
+**Build System**: Rollup 4 + SWC (20x faster than tsc)
+**Code Quality**: Biome (100x faster than ESLint+Prettier)
+**Frontend**: React 19, Tailwind 4, Vite 6
+**Testing**: Vitest 3.2, MSW 2.9, @vscode/test-cli
 
 ---
-> *Last updated: 2025-05-31*
+
+> Last updated: 6 June 2025
