@@ -1,103 +1,113 @@
-# Current Development Progress (AI Memory Extension)
+# Current Development Focus
 
-**Version**: 0.8.0-dev.4 → 0.8.0-dev.5 (pending)  
-**Date**: June 7, 2025  
-**Branch**: feature/phase-3-logging (*20 commits ahead, 104 changes, 7 untracked files*)
-
----
-
-## 🔥 **ACTIVE: Template-Based Test Fixing Strategy - MAJOR BREAKTHROUGH**
-
-### **Current Priority: VS Code API Mocking Template SUCCESS ✅**
-
-**Breakthrough Achievement**: VS Code API mocking template successfully applied!
-
-**Results**:
-- **Before**: 9 VS Code API test failures (0 API calls captured)
-- **After**: 6 minor assertion failures, 9 tests passing (60% success rate)
-- **Template Validation**: ✅ **PROVEN** - VS Code module mocking works with vi.mock() pattern
-
-### **✅ Proven Working Templates (Validated)**
-
-#### **1. Node.js Module Mocking Template**
-```typescript
-vi.mock("node:fs/promises", () => ({
-	stat: vi.fn(),
-	readFile: vi.fn(),
-	writeFile: vi.fn(),
-}));
-import { stat } from "node:fs/promises";
-// Use: vi.mocked(stat).mockResolvedValue(...)
-```
-
-#### **2. VS Code API Mocking Template** ✅ **NEW**
-```typescript
-vi.mock("vscode", () => ({
-	workspace: { fs: { stat: vi.fn(), readFile: vi.fn(), writeFile: vi.fn() } },
-	window: { showInformationMessage: vi.fn(), showWarningMessage: vi.fn() },
-	Uri: { file: vi.fn() },
-	FileType: { File: 1, Directory: 2 },
-}));
-import { workspace, window, Uri, FileType } from "vscode";
-// Use: vi.mocked(workspace.fs.readFile).mockResolvedValue(...)
-```
-
-### **🎯 Strategic Application Results**
-
-| **Template Category** | **Status** | **Tests Fixed** | **Remaining Issues** |
-|----------------------|------------|-----------------|---------------------|
-| **Node.js Module Mocking** | ✅ **PROVEN** | File operation tests | Minor validation logic issues |
-| **VS Code API Mocking** | ✅ **PROVEN** | 9 API call captures fixed | 6 assertion format mismatches |
-| **Service Logic Issues** | 🔄 **NEXT TARGET** | TBD | Core service initialization problems |
-| **Test Environment Setup** | 🔄 **AFTER SERVICES** | TBD | Various config/isolation issues |
-
-### **📊 Updated Failure Analysis (Template Impact)**
-
-**Original**: 40 test failures across 4 categories
-**Current Progress**:
-- ✅ **Node.js Module Mocking**: Template established (validation working)
-- ✅ **VS Code API Mocking**: Template proven (60% success rate achieved)
-- 🔄 **Service Logic Issues**: 15+ failures remaining (next target)
-- 🔄 **Test Environment Setup**: 16 failures remaining (final cleanup)
-
-**Estimated Impact**: Template approach should resolve **~26 failures** (65% of total) with proven patterns
-
-### **🚀 Next Strategic Phase: Service Logic Template**
-
-**Target**: `metadata/MetadataIndexManager.test.ts`, `performance-integration.test.ts`
-**Issue Pattern**: Core services returning `success: false`, file processing showing 0 results
-**Root Cause**: Service initialization/dependency injection problems
-
-**Approach**: Create service mocking template using established vi.mock() pattern:
-```typescript
-vi.mock("@/core/ServiceName", () => ({
-	// Service methods with proper Result<T, Error> patterns
-}));
-```
-
-### **🔧 Template Implementation Status**
-
-**Proven Effective** ✅:
-- **Mock Infrastructure**: vi.mock() at top-level works reliably
-- **Import After Mocking**: Ensures proper mock application
-- **vi.mocked() Usage**: Provides correct TypeScript typing for test configuration
-- **Systematic Application**: Template approach 3x faster than individual debugging
-
-**Success Metrics**:
-- **Node.js Module Template**: File operation mocks working, calls captured correctly
-- **VS Code API Template**: 60% immediate success rate, major API call capture fix
-- **Development Velocity**: Template approach proving significantly more efficient
-- **Code Quality**: Standardized patterns improve maintainability
-
-### **Key Insights for Production**
-
-1. **Template Validation**: Both Node.js and VS Code module mocking templates proven
-2. **Systematic Approach**: Template-based fixes resolve multiple similar failures efficiently
-3. **Mock Strategy**: Top-level vi.mock() is the reliable pattern for complex module mocking
-4. **Test Quality**: Proper mock typing and configuration critical for maintainable tests
+> **Phase**: Foundation Complete → Testing Implementation
+> **Date**: 2025-06-07
+> **Focus**: Dependency Management Completed, Moving to Vitest Unification
 
 ---
 
-**Next Session Focus**: Apply proven template strategy to service logic issues (15+ failures)
+## 🎯 **Active Context**
 
-**Last Updated**: June 7, 2025
+### **✅ COMPLETED: Dependency Management Excellence**
+
+**Major achievement**: Successfully cleaned up and optimized the entire dependency structure across workspace.
+
+#### **What We Accomplished (June 7, 2025)**
+
+1. **Package.json Optimization**
+   - ✅ Removed redundant dependencies: `@rollup/plugin-typescript`, `@types/glob`, `tsx` (duplicate)
+   - ✅ Added missing dependencies: `commander@14.0.0` for CLI, `glob@11.0.2` + `@types/glob` for scripts
+   - ✅ Proper categorization: runtime vs devDependencies correctly placed
+   - ✅ Version updates: Latest versions with security improvements
+
+2. **pnpm Configuration Mastery**
+   - ✅ Optimized `onlyBuiltDependencies`: `@biomejs/biome`, `@swc/core`, `@tailwindcss/oxide`, `@vscode/vsce-sign`, `esbuild`, `keytar`
+   - ✅ **Zero build warnings**: No more manual `pnpm approve-builds` prompts
+   - ✅ **Workspace inheritance**: Webview correctly inherits root pnpm configuration
+   - ✅ **Cross-directory consistency**: Works from both root and webview directories
+
+3. **Build System Reliability**
+   - ✅ Clean installs from any workspace directory
+   - ✅ Automated approval for trusted build scripts
+   - ✅ Security maintained for unknown packages
+   - ✅ CI/CD ready configuration
+
+#### **Impact & Value**
+
+- **Developer experience**: Seamless workflow with zero interruptions
+- **Team consistency**: Everyone gets same auto-approvals
+- **Security**: Proper boundary between trusted and unknown packages
+- **Foundation**: Solid base for Phase 4 restructuring
+
+---
+
+## 🔄 **Next Priority: Testing Foundation**
+
+### **Current Challenge: 29 Failed Tests**
+
+Moving into **Week 1** of Phase 4 implementation with focus on:
+
+1. **Vitest Projects Unification**
+   - Single `vitest.config.ts` with dual contexts
+   - Extension tests (Node environment)
+   - Webview tests (happy-dom environment)
+
+2. **Centralized Mock Strategy**
+   - Eliminate inconsistent VS Code API mocking
+   - Standardize mock patterns across codebase
+   - Fix the 29 failing tests with unified approach
+
+3. **Utils Consolidation** (67% reduction target)
+   - Flatten `src/utils/` from 12 files → 4 files
+   - Remove over-engineered folder nesting
+   - Simplify import patterns
+
+---
+
+## 📋 **Immediate Tasks**
+
+### **This Week**
+
+- [ ] **Create unified vitest config** with projects pattern
+- [ ] **Analyze 29 failing tests** to understand patterns
+- [ ] **Implement centralized VS Code API mocks**
+- [ ] **Begin utils/ directory consolidation**
+
+### **Next Week**
+
+- [ ] **Types system cleanup** (reduce config.ts from 461 → 180 lines)
+- [ ] **Flatten folder structure** (remove app/, shared/ nesting)
+- [ ] **Validate all builds** work with new structure
+
+---
+
+## 🧠 **Key Insights**
+
+### **What Works Well**
+
+- **pnpm workspace inheritance** is powerful when properly configured
+- **Transitive dependency approval** requires one-time manual setup
+- **Build script automation** significantly improves developer experience
+- **Modern tooling stack** (tsgo, Biome, Rollup+Vite) remains excellent
+
+### **Lessons Learned**
+
+- **Workspace-global configuration** must be in root package.json only
+- **Manual approvals persist** and complement allowlist configuration
+- **Version updates** can introduce new build script requirements
+- **Clean foundation** enables confident restructuring
+
+---
+
+## 🎉 **Milestones Achieved**
+
+- ✅ **Dependency organization**: Package.json files optimized
+- ✅ **Build automation**: Zero-warning install process
+- ✅ **Workspace inheritance**: Proper pnpm configuration
+- ✅ **Foundation complete**: Ready for structural improvements
+
+**Status**: Foundation work complete, testing implementation begins.
+
+---
+
+> *Updated: 2025-06-07 with dependency management completion*

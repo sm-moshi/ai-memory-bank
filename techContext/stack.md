@@ -68,6 +68,22 @@
 - **mcp-testing-kit 0.2.0**: Direct MCP server testing with dummy transport
 - **Coverage**: >90% threshold with V8 provider, parallel execution
 
+#### Biome 2.0 Beta Consideration (2025-06-07)
+
+- **Biome 2.0 Beta** introduces:
+  - Plugin support (GritQL-based custom lint rules)
+  - Domains (framework/tech-specific rule groups)
+  - Multi-file analysis (cross-file linting, e.g. import cycles)
+  - Import organizer revamp (smarter, customizable sorting/merging)
+  - Assists (actions without diagnostics, e.g. sort object keys)
+  - Improved suppressions (file/range, e.g. // biome-ignore-all)
+  - HTML formatter (experimental)
+  - Monorepo support and config changes
+- **Plan:**
+  - Monitor Biome 2.0 Beta progress and stability
+  - Evaluate migration when stable for plugin/domain/multi-file features
+  - Target: Enhanced code quality, project-specific rules, and monorepo linting
+
 ### Package Management: pnpm
 
 - **Workspace Configuration**: Monorepo support with webview as separate workspace
