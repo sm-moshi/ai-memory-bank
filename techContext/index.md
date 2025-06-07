@@ -1,32 +1,28 @@
 # Tech Context Index
 
-## 🚀 Technology Stack Summary
+## 🚀 Current Technology Stack
 
-### **Core Runtime**
+### **Runtime & Build**
 
-- **Node.js**: 20.19.0+ LTS
-- **TypeScript**: 5.8.3 with strict mode
-- **Package Manager**: pnpm 10.11.1
+- **Node.js**: 20.19.0+ | **TypeScript**: 5.8.3 | **pnpm**: 10.11.1
+- **Build**: Rollup 4.42.0 + SWC (~600ms) | **Quality**: Biome 1.9.4
 
-### **Build System**
+### **Frontend & Testing**
 
-- **Bundler**: Rollup 4.41+ with SWC
-- **Performance**: ~600ms total build time
-- **Bundle Size**: 405KB (106KB gzipped)
-- **Quality**: Biome for unified linting and formatting
+- **React**: 19.1.0 + Tailwind 4.1.8 | **Build**: Vite 6.3.5
+- **Testing**: Vitest 3.2.2 + MSW 2.10.0 | **Coverage**: >90%
 
-### **Frontend Stack**
+### **Dependencies**
 
-- **React**: 19.1.0 with concurrent features
-- **UI**: Tailwind CSS 4.1.8 + VS Code Elements
-- **Build Tool**: Vite 6.3.5 for webview
+- **Production**: 3 total (MCP SDK, Zod, gray-matter)
+- **Bundle**: 405KB extension (106KB gzipped), <1MB webview
 
-### **Testing**
+### **Status**: ✅ All systems operational
 
-- **Framework**: Vitest 3.2.2 with native ESM support
-- **Coverage**: >90% threshold with V8 provider
-- **API Mocking**: MSW 2.9.0 + mcp-testing-kit
+---
 
-### **Current Status**
+📁 **Detailed Documentation:**
 
-✅ **All systems operational and fully functional**
+- **[stack.md](./stack.md)** - Technology choices and rationale
+- **[environment.md](./environment.md)** - Development setup guide
+- **[dependencies.md](./dependencies.md)** - Dependency management
