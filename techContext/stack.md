@@ -1,177 +1,145 @@
 # Technology Stack
 
-> Real technology choices and implementation details for AI Memory Extension
+> Technology choices and implementation decisions for AI Memory Extension
 
-## 🏗 Core Runtime Stack
+## Core Technology Decisions
 
-### **JavaScript Runtime**
+### Build System & Compilation
 
-- **Node.js**: 20.19.0+ (LTS) - Required for extension and MCP server
-- **Package Manager**: pnpm 10.11.1 - Fast, efficient dependency management
-- **Package Manager Config**: Workspace support, overrides for security patches
+#### TypeScript Compilation Strategy
 
-### **TypeScript Configuration**
+- **Primary**: tsgo via `@typescript/native-preview` (TypeScript 7.0 native port)
+- **Rationale**: 10x performance improvement over Node.js-based tsc
+- **Implementation**: Go-based native compiler with shared memory parallelism
+- **Fallback**: Standard tsc for unsupported features (--build, full declaration emit)
+- **Editor Integration**: `"typescript.experimental.useTsgo": true` in VS Code/Cursor
 
-- **TypeScript**: 5.8.3 - Latest with strict mode enabled
-- **Config Structure**: Multi-config setup
-  - `tsconfig.base.json` - Shared configuration
-  - Root `tsconfig.json` - Main project configuration
-  - `src/webview/tsconfig.json` - Webview-specific configuration
-  - `src/webview/tsconfig.node.json` - Webview build tools
-- **Features**: Project references, verbatimModuleSyntax, path mapping
-- **Target**: ES2022 for modern Node.js compatibility
+#### tsgo Current Status (2025)
 
-## 🔧 Build System & Tooling
+- ✅ Full type checking parity with TS 5.8
+- ✅ JSX support and JavaScript+JSDoc checking
+- ✅ Basic editor features (diagnostics, hover, completions)
+- ⚠️ Limited: No --build mode, limited declaration emit, no incremental builds
+- 🔄 In progress: Auto-imports, find-all-references, rename
 
-### **Primary Build Pipeline**
+#### Performance Characteristics
 
-- **Bundler**: Rollup 4.41+ - Modern bundler with excellent tree-shaking
-- **Compiler**: SWC via @rollup/plugin-swc - 20x faster than TypeScript compiler
-- **Build Performance**: Extension build ~300ms, Webview build ~817ms
-- **Bundle Size**: Extension 405KB (106KB gzipped), optimized vendor chunking
-- **Target Outputs**:
-  - `dist/extension.cjs` - VS Code extension (CommonJS)
-  - `dist/index.cjs` - MCP CLI server (CommonJS)
-  - `dist/webview/` - React UI (ES modules)
+- **VS Code codebase**: 77s → 7.5s (10.4x improvement)
+- **Playwright codebase**: 11s → 1.1s (10.1x improvement)
+- **Editor load time**: 8x improvement for large projects
+- **Memory efficiency**: Native compilation without Node.js overhead
 
-### **Code Quality Tools**
+#### Module Resolution Strategy
 
-- **Linting/Formatting**: Biome 1.9.4 - 100x faster than ESLint+Prettier
-- **Performance**: 123 files linted in 57ms, formatting in 15ms
-- **Configuration**: Proper exclusions for tsconfig*.json files (JSONC support)
-- **Special Rules**: Interface naming (PascalCase), British English enforcement
-- **Architecture**: Pure TypeScript source, no .js artifacts in git
+- **Recommended**: `node16`, `nodenext`, or `bundler`
+- **Deprecated**: `node`/`node10` (causes errors with tsgo)
+- **Project Structure**: Multi-config with project references
+- **Path Mapping**: Clean import aliases with verbatimModuleSyntax
 
-### **Development Tools**
+### Build Pipeline Architecture
 
-- **Path Aliases**: @/ and @utils/ for clean imports
-- **Source Maps**: Enabled for development, optimized for production
-- **Hot Reload**: Webview development with sub-100ms updates
-- **Bundle Analysis**: Optional analysis with rollup plugins
-- **Build Process**: Clean output, no warnings, automated artifact cleanup
-- **File Management**: Intelligent exclusion of build artifacts from source control
+#### Primary Build: Rollup + SWC
 
-## 🎨 Frontend Technology Stack
+- **Rollup 4.42+**: Modern bundler with excellent tree-shaking
+- **SWC Integration**: 20x faster TypeScript compilation vs tsc
+- **Multi-Target Support**: Extension (CommonJS), MCP CLI (CommonJS), Webview (ES modules)
+- **Optimization**: Dead code elimination, smart externalization, bundle splitting
 
-### **React Webview Implementation**
+#### Webview Build: Vite + React 19
 
-- **React**: 19.1.0 - Latest with concurrent features and React Compiler
-- **Build Tool**: Vite 6.3.5 - Lightning-fast development server
-- **UI Framework**: Tailwind CSS 4.1.8 - Native @tailwindcss/vite integration
-- **VS Code Integration**: @vscode-elements/react-elements 1.15.1
-- **Icons**: react-icons 5.5.0 - Comprehensive icon library
+- **Vite 6.3.5+**: Lightning-fast HMR with sub-100ms updates
+- **React 19.1+**: Concurrent features, automatic batching, React Compiler
+- **Tailwind CSS 4.1.8+**: Native CSS engine with container queries
+- **Performance**: Native ES modules in development, optimized bundles for production
 
-### **Webview Configuration**
+### Code Quality & Testing
 
-- **Security**: Strict Content Security Policy (CSP)
-- **Communication**: PostMessage for extension ↔ webview
-- **Development**: Hot Module Replacement (HMR) with instant updates
-- **Build Output**: Optimized chunks, vendor splitting, asset optimization
+#### Unified Tooling: Biome
 
-### **Package Management (Webview)**
+- **Single Tool**: Replaces ESLint + Prettier for speed and consistency
+- **Configuration**: Tabs (4 spaces), 100 char lines, double quotes
+- **Parallel Processing**: Multi-threaded analysis for large codebases
+- **Smart Import Organization**: Automatic sorting, grouping, unused removal
 
-- **Separate Workspace**: Independent pnpm workspace for webview
-- **Dependencies**: React, Tailwind, VS Code Elements, React Icons
-- **Dev Dependencies**: Vite, testing tools, TypeScript, Biome
+#### Testing Stack: Vitest + MSW
 
-## 🔌 Backend & Integration Stack
+- **Vitest 3.2+**: Native ESM support with streaming test runner
+- **MSW 2.10+**: Modern API mocking with http.get() and HttpResponse.json()
+- **mcp-testing-kit 0.2.0**: Direct MCP server testing with dummy transport
+- **Coverage**: >90% threshold with V8 provider, parallel execution
 
-### **VS Code Extension Platform**
+### Package Management: pnpm
 
-- **Engine**: VS Code 1.96.0+ - Extension host compatibility
-- **Activation**: Specific activation events (not *)
-- **Commands**: 6 registered commands with proper lifecycle
-- **Configuration**: Extension settings via package.json contributes
+- **Workspace Configuration**: Monorepo support with webview as separate workspace
+- **Security**: Overrides for security patches, onlyBuiltDependencies configuration
+- **Performance**: supportedArchitectures for faster installs
+- **Reproducibility**: Always commit pnpm-lock.yaml
 
-### **MCP Server Implementation**
+## Technology Integration Patterns
 
-- **Protocol**: Model Context Protocol (MCP) SDK 1.12.1
-- **Transport**: STDIO only (no HTTP) for maximum Cursor compatibility
-- **Architecture**: Isolated child process with proper lifecycle management
-- **Tools**: 7 MCP tools for memory bank operations
+### Development Workflow
 
-### **File System & Data Layer**
+- **Parallel Development**: Watch mode + webview dev server simultaneously
+- **Quality Gates**: Type checking (tsgo) + linting (Biome) + testing (Vitest)
+- **Hot Reload**: Sub-100ms updates for webview changes
+- **Build Verification**: Multi-target validation (extension, MCP, webview)
 
-- **File Operations**: Node.js fs/promises with validation
-- **Validation**: Zod 3.25.53 for runtime type checking
-- **Caching**: LRU cache with automatic eviction
-- **Streaming**: Intelligent file reading based on size thresholds
-- **Templates**: gray-matter 4.0.3 for markdown frontmatter parsing
+### Performance Optimization
 
-## 🧪 Testing Infrastructure
+- **Compilation**: tsgo for 10x TypeScript speed, SWC for 20x build speed
+- **Bundling**: Tree-shaking with ES2022, intelligent vendor chunking
+- **Development**: Native ES modules, smart pre-bundling with esbuild
+- **Production**: Advanced minification, CSS code splitting, asset optimization
 
-### **Testing Framework**
+### Cross-Platform Considerations
 
-- **Test Runner**: Vitest 3.2.2 - 10x faster than Jest
-- **Coverage**: @vitest/coverage-v8 with >90% threshold
-- **Environment**: Node.js for extension, jsdom for webview
+- **Path Handling**: path.posix for consistency across platforms
+- **Node.js Compatibility**: Target Node.js 20 LTS for stability
+- **Build Process**: Platform-specific optimizations, multi-platform testing
+- **Native Dependencies**: Conditional exports, platform-specific builds
 
-### **Testing Libraries**
+## Architectural Decisions
 
-- **React Testing**: @testing-library/react 16.3.0
-- **DOM Testing**: @testing-library/dom 10.4.0, @testing-library/jest-dom 6.6.3
-- **API Mocking**: MSW 2.9.0 with modern HttpResponse patterns
-- **MCP Testing**: mcp-testing-kit 0.2.0 for direct server testing
-- **Extension Testing**: @vscode/test-cli 0.0.11, @vscode/test-electron 2.5.2
+### VS Code Extension Integration
 
-### **Test Configuration**
+- **Activation Events**: Specific events, not wildcard
+- **Command Namespacing**: Extension ID prefixes (aimemory.*)
+- **Webview Security**: Strict CSP, nonce-based scripts, structured postMessage
+- **Performance**: Lazy loading, proper disposal patterns, memory management
 
-- **Parallel Execution**: Multi-threaded test runs
-- **Setup Files**: Global test configuration and MSW setup
-- **Coverage Thresholds**: 90% lines, functions, branches, statements
-- **Mock Patterns**: Centralized utilities for VS Code, filesystem, MCP mocking
+### MCP Server Architecture
 
-## 🛠 Development Infrastructure
+- **Protocol Compliance**: @modelcontextprotocol/sdk 1.12+ standards
+- **Transport**: stdio for Cursor compatibility (no HTTP/Express)
+- **Service Layer**: Clean separation between MCP adapter and business logic
+- **Error Handling**: Comprehensive boundaries with user-friendly messages
 
-### **Build Scripts & Automation**
+### Memory Bank Structure
 
-- **Development**: `pnpm dev` - Parallel watch with hot reload
-- **Build**: `pnpm build` - Optimized production builds
-- **Testing**: `pnpm test` - Full test suite with coverage
-- **Quality**: `pnpm check` - Type checking, linting, formatting
-- **Packaging**: `pnpm package` - VSIX extension packaging
+- **Modular Organization**: core/, systemPatterns/, techContext/, progress/
+- **Access Patterns**: Hot (always load), Warm (on-demand), Cold (chunked)
+- **File Operations**: Async I/O, self-healing with templates, validation
+- **Performance**: Intelligent caching, size limits, concurrent access safety
 
-### **Development Dependencies**
+## Future Technology Considerations
 
-- **TypeScript**: @typescript/native-preview 7.0.0-dev for latest features
-- **VS Code Tools**: @vscode/vsce 3.5.0 for extension packaging
-- **Cross-Platform**: cross-env 7.0.3 for environment variables
-- **Task Runner**: npm-run-all 4.1.5 for parallel script execution
-- **Build Copy**: rollup-plugin-copy 3.5.0 for asset handling
+### TypeScript Evolution
 
-## 🔐 Security & Performance
+- **Migration Path**: tsgo → TypeScript 7.0 when feature-complete
+- **Compatibility**: Maintain tsc fallback until full tsgo parity
+- **Editor Support**: Monitor LSP improvements and feature additions
+- **Performance**: Continue leveraging native compilation benefits
 
-### **Security Tools**
+### Build System Evolution
 
-- **Input Validation**: Zod schemas for all user inputs
-- **Path Security**: Path traversal prevention
-- **CSP**: Strict Content Security Policy for webview
-- **Error Handling**: Secure error messages, no data leakage
-
-### **Performance Characteristics**
-
-- **Bundle Size**: Extension 405KB (106KB gzipped), webview <1MB initial
-- **Build Speed**: ~600ms total build time
-- **Linting Speed**: 123 files in 57ms with Biome
-- **Memory Usage**: <50MB baseline, <100MB peak during development
-- **File Operations**: Streaming for files >30KB, intelligent caching
-- **Architecture**: Pure TypeScript source, zero build artifacts in git
-
-## 📦 Dependencies Overview
-
-### **Runtime Dependencies (3 total)**
-
-- `@modelcontextprotocol/sdk`: MCP protocol implementation
-- `gray-matter`: Markdown frontmatter parsing
-- `zod`: Runtime type validation
-
-### **Build Dependencies (Selective)**
-
-- Core build tools: Rollup, SWC, Biome
-- VS Code integration: @vscode/test-cli, @vscode/vsce
-- Testing: Vitest, MSW, testing libraries
-- Development: TypeScript, cross-env, npm-run-all
+- **Dependency Updates**: Pin critical tools, range for stable dependencies
+- **Security**: Regular security patches via pnpm overrides
+- **Performance Monitoring**: Bundle analysis, build speed metrics
+- **Optimization**: Tree-shaking effectiveness, cache efficiency analysis
 
 ---
 
-> Last updated: 6 June 2025
+**Cross-References**: #typescript #tsgo #rollup #swc #vite #biome #vitest #performance #native-compilation
+
+**See Also**: @002-build-system-tooling.mdc for actionable rules, docs/build-configuration.md for
+implementation details
