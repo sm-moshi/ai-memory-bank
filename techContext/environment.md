@@ -1,17 +1,17 @@
 # Environment
 
-> Development environment setup and requirements for AI Memory Extension
+Development environment setup and requirements for AI Memory Extension
 
 ## 🎯 Platform Requirements
 
-### **Host Platform**
+### Host Platform
 
 - **Operating Systems**: macOS, Linux, Windows (cross-platform support)
 - **Development OS**: macOS (primary), Linux (CI/CD)
 - **Architecture**: x64, arm64 (Apple Silicon support)
 - **Current Environment**: macOS 14.5.0 (darwin 24.5.0)
 
-### **Engine Requirements**
+### Engine Requirements
 
 - **VS Code/Cursor**: ^1.96.2 (latest stable)
 - **Node.js**: >=20.19.0 (LTS)
@@ -20,7 +20,7 @@
 
 ## 🛠 Development Environment Setup
 
-### **Prerequisites Installation**
+### Prerequisites Installation
 
 ```bash
 # Check prerequisites
@@ -37,7 +37,7 @@ nvm use 20
 npm install -g pnpm@10.11.1
 ```
 
-### **Initial Project Setup**
+### Initial Project Setup
 
 ```bash
 # Clone and setup project
@@ -48,7 +48,7 @@ pnpm build       # Build extension and webview
 pnpm test        # Verify setup with test suite
 ```
 
-### **Package Manager Configuration**
+### Package Manager Configuration
 
 - **Module Type**: ESM modules (`"type": "module"`)
 - **Package Manager**: pnpm@10.11.1 with workspace support
@@ -59,7 +59,7 @@ pnpm test        # Verify setup with test suite
 
 ## 🔧 IDE Configuration
 
-### **Cursor/VS Code Settings**
+### Cursor/VS Code Settings
 
 **Workspace Configuration** (`.vscode/settings.json`):
 
@@ -86,7 +86,7 @@ pnpm test        # Verify setup with test suite
 }
 ```
 
-### **Essential VS Code Extensions**
+### Essential VS Code Extensions
 
 - **Biome** (biomejs.biome) - Official Biome extension for linting/formatting
 - **TypeScript Importer** - Auto-import suggestions
@@ -95,7 +95,7 @@ pnpm test        # Verify setup with test suite
 - **Auto Rename Tag** - HTML/JSX tag renaming
 - **Thunder Client** (optional) - API testing during development
 
-### **TypeScript Configuration**
+### TypeScript Configuration
 
 - **Workspace uses strict mode** with project references
 - **Path Mapping**: `@/` and `@utils/` aliases configured in tsconfig
@@ -104,7 +104,7 @@ pnpm test        # Verify setup with test suite
 
 ## 🔄 Development Workflow
 
-### **Daily Development Commands**
+### Daily Development Commands
 
 ```bash
 # Start development environment
@@ -125,7 +125,7 @@ pnpm test:watch      # Continuous testing
 pnpm test:coverage   # Generate coverage reports
 ```
 
-### **Extension Development Workflow**
+### Extension Development Workflow
 
 ```bash
 # Launch VS Code Extension Host for testing
@@ -139,7 +139,7 @@ pnpm package         # Creates .vsix file in project root
 pnpm health         # Quick health check (types + lint + test)
 ```
 
-### **Hot Reload Setup**
+### Hot Reload Setup
 
 - **Extension**: Automatic rebuild on source changes with Rollup watch mode
 - **Webview**: Sub-100ms HMR updates with Vite development server
@@ -147,7 +147,7 @@ pnpm health         # Quick health check (types + lint + test)
 
 ## 🌍 Environment Variables
 
-### **Development Environment Variables**
+### Development Environment Variables
 
 ```bash
 # Optional environment variables for development
@@ -156,7 +156,7 @@ export ANALYZE=true            # Enable bundle analysis
 export VSCODE_TEST_DEBUG=1     # Debug extension tests
 ```
 
-### **Production Build Environment**
+### Production Build Environment
 
 ```bash
 export NODE_ENV=production     # Production optimizations
@@ -165,14 +165,14 @@ export VSCODE_TEST_TIMEOUT=30000  # Extended test timeout for CI
 
 ## 🌍 Cross-Platform Considerations
 
-### **Path Handling**
+### Path Handling
 
 - **Node.js**: `path.posix` for consistent cross-platform paths
 - **File System**: Proper handling of case sensitivity differences
 - **Line Endings**: Configured for LF throughout (biome.json)
 - **Git Configuration**: Consistent line ending handling
 
-### **Platform-Specific Setup**
+### Platform-Specific Setup
 
 **macOS**:
 
@@ -199,7 +199,7 @@ pnpm install && pnpm build
 
 ## 🔧 Troubleshooting
 
-### **Common Environment Issues**
+### Common Environment Issues
 
 **Node.js Version Mismatch**:
 
@@ -240,14 +240,14 @@ rm -rf dist
 pnpm build:extension && pnpm build:webview
 ```
 
-### **Performance Optimization**
+### Performance Optimization
 
 - **Memory Usage**: Development environment should use <2GB
 - **Build Speed**: Target ~600ms total build, <1s incremental
 - **Test Speed**: Target <10s test suite execution
 - **Hot Reload**: Should achieve sub-100ms webview updates
 
-### **Development Tips**
+### Development Tips
 
 - Use `pnpm health` for quick environment validation
 - Enable Error Lens extension for inline TypeScript errors
@@ -256,4 +256,4 @@ pnpm build:extension && pnpm build:webview
 
 ---
 
-> Last updated: 6 June 2025
+Last updated: 6 June 2025
