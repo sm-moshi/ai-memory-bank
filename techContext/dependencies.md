@@ -1,7 +1,6 @@
 # Dependencies
 
-> Dependency analysis and management optimized for AI Memory Extension
-> **Last Updated**: 2025-06-07
+> Dependency analysis and management optimized for AI Memory Extension **Last Updated**: 2025-06-07
 
 ---
 

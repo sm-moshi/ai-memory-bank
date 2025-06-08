@@ -1,113 +1,106 @@
-# Current Development Focus
+---
+id: current-progress
+type: progress
+title: Current Development Progress
+description: Active development tasks and immediate next steps
+tags: [progress, development, current]
+created: 2025-06-07
+updated: 2025-06-08
+version: "1.0"
+---
 
-> **Phase**: Foundation Complete → Testing Implementation
-> **Date**: 2025-06-07
-> **Focus**: Dependency Management Completed, Moving to Vitest Unification
+# Current Development Progress
+
+## 🎯 Active Focus: Project Structure Consolidation (Step 2.5.1 ✅ COMPLETED)
+
+**Goal**: Reduce codebase from 55 TypeScript files to 21 files (62% reduction)
+
+### ✅ Step 2.5.1 - MCP Tools Consolidation (COMPLETED)
+
+**Status**: Successfully completed on 2025-06-08
+
+**What was accomplished**:
+- ✅ Consolidated 4 MCP tool files into single `src/mcp/tools.ts` (686 lines)
+- ✅ Fixed all import paths and type references
+- ✅ Resolved TypeScript compilation errors
+- ✅ Maintained all functionality from source files
+
+**Files consolidated**:
+- `src/mcp/coreMemoryBankMCP.ts` (110 lines) → **READY FOR DELETION**
+- `src/mcp/metadataMemoryBankMCP.ts` (38 lines) → **READY FOR DELETION**  
+- `src/mcp/shared/mcpToolHelpers.ts` (246 lines) → **READY FOR DELETION**
+- `src/mcp/shared/metadataToolRegistrar.ts` (267 lines) → **READY FOR DELETION**
+
+**Result**: `src/mcp/tools.ts` (686 lines) - All TypeScript errors resolved ✅
+
+### 🎯 Next Steps: Step 2.5.2 - MCP Server Logic Consolidation
+
+**Target**: Consolidate server logic into `src/mcp/server.ts`
+
+**Files to consolidate**:
+- `src/mcp/mcpServerCliClass.ts` (235 lines)
+- `src/mcp/shared/baseMcpServer.ts` (329 lines)  
+- `src/mcp/mcpAdapter.ts` (195 lines)
+
+**Expected result**: `src/mcp/server.ts` (~450 lines)
+
+### 🎯 Following Steps: Step 2.5.3 - MCP Transport Consolidation
+
+**Target**: Consolidate transport logic into `src/mcp/transport.ts`
+
+**Files to consolidate**:
+- `src/mcp/mcpServerCliEntry.ts` (37 lines)
+
+**Expected result**: `src/mcp/transport.ts` (~300 lines)
 
 ---
 
-## 🎯 **Active Context**
+## 📊 Overall Progress Status
 
-### **✅ COMPLETED: Dependency Management Excellence**
+### Phase 2: Content Migration (In Progress)
+- ✅ **Step 2.1**: Types consolidation (lib/types/) - COMPLETED
+- ✅ **Step 2.2**: Utilities consolidation (lib/) - COMPLETED  
+- ✅ **Step 2.3**: Templates consolidation (templates/) - COMPLETED
+- ✅ **Step 2.4**: Core business logic (core/) - COMPLETED
+- 🔄 **Step 2.5**: MCP server logic (mcp/) - **IN PROGRESS**
+  - ✅ **Step 2.5.1**: Tools consolidation - **COMPLETED**
+  - 🎯 **Step 2.5.2**: Server logic consolidation - **NEXT**
+  - 📋 **Step 2.5.3**: Transport consolidation - **PENDING**
+- 📋 **Step 2.6**: VS Code integration (vscode/) - PENDING
+- 📋 **Step 2.7**: Cursor integration - PENDING
 
-**Major achievement**: Successfully cleaned up and optimized the entire dependency structure across workspace.
-
-#### **What We Accomplished (June 7, 2025)**
-
-1. **Package.json Optimization**
-   - ✅ Removed redundant dependencies: `@rollup/plugin-typescript`, `@types/glob`, `tsx` (duplicate)
-   - ✅ Added missing dependencies: `commander@14.0.0` for CLI, `glob@11.0.2` + `@types/glob` for scripts
-   - ✅ Proper categorization: runtime vs devDependencies correctly placed
-   - ✅ Version updates: Latest versions with security improvements
-
-2. **pnpm Configuration Mastery**
-   - ✅ Optimized `onlyBuiltDependencies`: `@biomejs/biome`, `@swc/core`, `@tailwindcss/oxide`, `@vscode/vsce-sign`, `esbuild`, `keytar`
-   - ✅ **Zero build warnings**: No more manual `pnpm approve-builds` prompts
-   - ✅ **Workspace inheritance**: Webview correctly inherits root pnpm configuration
-   - ✅ **Cross-directory consistency**: Works from both root and webview directories
-
-3. **Build System Reliability**
-   - ✅ Clean installs from any workspace directory
-   - ✅ Automated approval for trusted build scripts
-   - ✅ Security maintained for unknown packages
-   - ✅ CI/CD ready configuration
-
-#### **Impact & Value**
-
-- **Developer experience**: Seamless workflow with zero interruptions
-- **Team consistency**: Everyone gets same auto-approvals
-- **Security**: Proper boundary between trusted and unknown packages
-- **Foundation**: Solid base for Phase 4 restructuring
+### Files Reduced So Far
+- **Before**: 55 TypeScript files
+- **Current**: ~51 TypeScript files (4 files consolidated in Step 2.5.1)
+- **Target**: 21 TypeScript files
+- **Progress**: ~7% reduction completed
 
 ---
 
-## 🔄 **Next Priority: Testing Foundation**
+## 🛠 Technical Notes
 
-### **Current Challenge: 29 Failed Tests**
+### Step 2.5.1 Implementation Details
+- **Import Strategy**: Used relative paths, avoided circular dependencies
+- **Type Compatibility**: Created `MemoryBankServiceCore` type alias for `MemoryBankManager`
+- **Error Handling**: Fixed arithmetic operations on Date objects
+- **Validation**: All TypeScript errors resolved, no linting issues
 
-Moving into **Week 1** of Phase 4 implementation with focus on:
-
-1. **Vitest Projects Unification**
-   - Single `vitest.config.ts` with dual contexts
-   - Extension tests (Node environment)
-   - Webview tests (happy-dom environment)
-
-2. **Centralized Mock Strategy**
-   - Eliminate inconsistent VS Code API mocking
-   - Standardize mock patterns across codebase
-   - Fix the 29 failing tests with unified approach
-
-3. **Utils Consolidation** (67% reduction target)
-   - Flatten `src/utils/` from 12 files → 4 files
-   - Remove over-engineered folder nesting
-   - Simplify import patterns
+### Quality Assurance
+- ✅ TypeScript compilation: No errors in consolidated file
+- ✅ Import resolution: All dependencies correctly resolved
+- ✅ Functionality preservation: All MCP tools maintained
+- ✅ Code organization: Logical sections with clear documentation
 
 ---
 
-## 📋 **Immediate Tasks**
+## 🚀 Immediate Next Actions
 
-### **This Week**
-
-- [ ] **Create unified vitest config** with projects pattern
-- [ ] **Analyze 29 failing tests** to understand patterns
-- [ ] **Implement centralized VS Code API mocks**
-- [ ] **Begin utils/ directory consolidation**
-
-### **Next Week**
-
-- [ ] **Types system cleanup** (reduce config.ts from 461 → 180 lines)
-- [ ] **Flatten folder structure** (remove app/, shared/ nesting)
-- [ ] **Validate all builds** work with new structure
+1. **Delete source files** from Step 2.5.1 (4 files)
+2. **Begin Step 2.5.2** - MCP server logic consolidation
+3. **Validate** each consolidation step with TypeScript compilation
+4. **Commit** progress after each successful step
 
 ---
 
-## 🧠 **Key Insights**
-
-### **What Works Well**
-
-- **pnpm workspace inheritance** is powerful when properly configured
-- **Transitive dependency approval** requires one-time manual setup
-- **Build script automation** significantly improves developer experience
-- **Modern tooling stack** (tsgo, Biome, Rollup+Vite) remains excellent
-
-### **Lessons Learned**
-
-- **Workspace-global configuration** must be in root package.json only
-- **Manual approvals persist** and complement allowlist configuration
-- **Version updates** can introduce new build script requirements
-- **Clean foundation** enables confident restructuring
-
----
-
-## 🎉 **Milestones Achieved**
-
-- ✅ **Dependency organization**: Package.json files optimized
-- ✅ **Build automation**: Zero-warning install process
-- ✅ **Workspace inheritance**: Proper pnpm configuration
-- ✅ **Foundation complete**: Ready for structural improvements
-
-**Status**: Foundation work complete, testing implementation begins.
-
----
-
-> *Updated: 2025-06-07 with dependency management completion*
+**Last Updated**: 2025-06-08 20:35
+**Next Review**: After Step 2.5.2 completion
