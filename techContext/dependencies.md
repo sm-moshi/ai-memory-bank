@@ -1,12 +1,10 @@
 # Dependencies
 
-> Dependency analysis and management optimized for AI Memory Extension **Last Updated**: 2025-06-07
+Dependency analysis and management optimized for AI Memory Extension (Last Updated: 2025-06-07)
 
----
+## 📦 Production Dependencies
 
-## 📦 **Production Dependencies**
-
-### **Core Runtime Requirements**
+### Core Runtime Requirements
 
 ```json
 {
@@ -19,11 +17,9 @@
 
 **Rationale**: Minimal runtime footprint with essential functionality only.
 
----
+## 🛠️ Development Dependencies
 
-## 🛠️ **Development Dependencies**
-
-### **Build System** (Modern & Fast)
+### Build System (Modern & Fast)
 
 ```json
 {
@@ -39,7 +35,7 @@
 }
 ```
 
-### **TypeScript Tooling** (Cutting Edge)
+### TypeScript Tooling (Cutting Edge)
 
 ```json
 {
@@ -49,7 +45,7 @@
 }
 ```
 
-### **Code Quality** (Unified Tooling)
+### Code Quality (Unified Tooling)
 
 ```json
 {
@@ -57,7 +53,7 @@
 }
 ```
 
-### **Testing Framework** (Modern Vitest)
+### Testing Framework (Modern Vitest)
 
 ```json
 {
@@ -66,7 +62,7 @@
 }
 ```
 
-### **VS Code Integration**
+### VS Code Integration
 
 ```json
 {
@@ -77,7 +73,7 @@
 }
 ```
 
-### **Utility Tools**
+### Utility Tools
 
 ```json
 {
@@ -87,11 +83,9 @@
 }
 ```
 
----
+## 🔧 pnpm Workspace Configuration
 
-## 🔧 **pnpm Workspace Configuration**
-
-### **✅ Optimized Build Script Management**
+### ✅ Optimized Build Script Management
 
 ```json
 {
@@ -115,18 +109,16 @@
 - ✅ **Security boundary** for unknown packages
 - ✅ **Workspace inheritance** works from any directory
 
-### **Dependency Approval Strategy**
+### Dependency Approval Strategy
 
 1. **Pre-approved** via `onlyBuiltDependencies` (common tools)
 2. **One-time approval** for transitive dependencies (msw, etc.)
 3. **Manual review** for new/unknown packages
 4. **CI/CD compatible** - no interactive prompts
 
----
+## 📊 Webview Dependencies
 
-## 📊 **Webview Dependencies**
-
-### **React 19 Modern Stack**
+### React 19 Modern Stack
 
 ```json
 {
@@ -139,7 +131,7 @@
 }
 ```
 
-### **Development Tooling**
+### Development Tooling
 
 ```json
 {
@@ -152,33 +144,29 @@
 
 **Note**: Webview inherits workspace pnpm configuration from root.
 
----
+## 🚀 Performance Optimizations
 
-## 🚀 **Performance Optimizations**
-
-### **Fast TypeScript Compilation**
+### Fast TypeScript Compilation
 
 - **Primary**: `tsgo` via `@typescript/native-preview` (10x faster)
 - **Fallback**: Standard `tsc` for unsupported features
 - **SWC Plugin**: 20x faster than standard TypeScript plugin
 
-### **Bundle Optimization**
+### Bundle Optimization
 
 - **Tree-shaking**: ES2022 imports for modern bundling
 - **Source maps**: Development only for faster builds
 - **Bundle analysis**: On-demand with `ANALYZE=true`
 
-### **Caching Strategy**
+### Caching Strategy
 
 - **pnpm**: Shared dependency cache across workspace
 - **Rollup**: Efficient incremental builds
 - **Vite**: Sub-100ms HMR for webview development
 
----
+## 🔍 Dependency Analysis Tools
 
-## 🔍 **Dependency Analysis Tools**
-
-### **Inspection Commands**
+### Inspection Commands
 
 ```bash
 pnpm why [package]           # Trace dependency origin
@@ -187,41 +175,37 @@ pnpm outdated               # Check for updates
 pnpm audit                  # Security vulnerability scan
 ```
 
-### **Build Script Management**
+### Build Script Management
 
 ```bash
 pnpm approve-builds         # Approve specific packages
 pnpm install               # Clean install (zero warnings)
 ```
 
----
+## 📋 Maintenance Guidelines
 
-## 📋 **Maintenance Guidelines**
-
-### **Adding New Dependencies**
+### Adding New Dependencies
 
 1. **Runtime dependencies** → `dependencies` in appropriate package.json
 2. **Build tools** → `devDependencies` in root package.json
 3. **Webview-specific** → `devDependencies` in webview package.json
 4. **Build scripts** → Add to `onlyBuiltDependencies` if trusted
 
-### **Version Updates**
+### Version Updates
 
 1. **Security patches** → Apply immediately
 2. **Minor updates** → Test in development first
 3. **Major updates** → Coordinate with build system changes
 4. **LTS alignment** → Prefer Node.js LTS-compatible versions
 
-### **Quality Gates**
+### Quality Gates
 
 - ✅ **Zero build warnings** for clean installations
 - ✅ **Consistent versioning** across workspace
 - ✅ **Security compliance** via automated audits
 - ✅ **Performance validation** for build tool changes
 
----
-
-## 🎯 **Success Metrics**
+## 🎯 Success Metrics
 
 - **Installation time**: < 30 seconds for fresh workspace
 - **Build warnings**: Zero for normal development workflow
@@ -231,4 +215,4 @@ pnpm install               # Clean install (zero warnings)
 
 ---
 
-*Optimized for modern development experience with zero-friction dependency management.*
+Optimized for modern development experience with zero-friction dependency management.
