@@ -1,12 +1,12 @@
 # Project Brief
 
-> AI Memory Extension for Cursor & VS Code - Production-ready memory bank system with MCP integration
+AI Memory Extension for Cursor & VS Code - Production-ready memory bank system with MCP integration
 
 ## 🎯 Project Overview
 
 **AI Memory** is a mature, production-ready extension that provides persistent, context-aware memory for LLMs and AI agents in Cursor and VS Code. The extension implements a robust memory bank system using the Model Context Protocol (MCP) for seamless AI integration.
 
-**Current Version**: 0.8.0-dev.3
+**Current Version**: 0.8.0-dev.5
 **Target Platforms**: Cursor 0.50+, VS Code 1.96+
 **Architecture**: STDIO-based MCP server with React webview UI
 
@@ -67,6 +67,4 @@
 **Frontend**: React 19, Tailwind 4, Vite 6
 **Testing**: Vitest 3.2, MSW 2.9, @vscode/test-cli
 
----
-
-> Last updated: 6 June 2025
+> Last updated: 8 June 2025

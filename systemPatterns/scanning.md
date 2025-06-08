@@ -1,10 +1,10 @@
 # Scanning
 
-> File discovery, validation, and health monitoring patterns in AI Memory Extension
+File discovery, validation, and health monitoring patterns in AI Memory Extension
 
 ## 🔍 File Discovery Patterns
 
-### **Memory Bank Structure Scanning**
+### Memory Bank Structure Scanning
 
 ```typescript
 // Systematic discovery of memory bank files
@@ -41,7 +41,7 @@ type MemoryBankFileType =
   // ... all combinations
 ```
 
-### **Directory Validation Pattern**
+### Directory Validation Pattern
 
 ```typescript
 // Comprehensive directory structure validation
@@ -83,7 +83,7 @@ export async function validateMemoryBankDirectory(
 
 ## 📋 File Validation Patterns
 
-### **Individual File Validation**
+### Individual File Validation
 
 ```typescript
 // Validate single memory bank file
@@ -123,7 +123,7 @@ export async function validateMemoryBankFile(
 }
 ```
 
-### **Bulk File Validation**
+### Bulk File Validation
 
 ```typescript
 // Validate all memory bank files efficiently
@@ -163,7 +163,7 @@ export async function validateAllMemoryBankFiles(
 
 ## 🏥 Health Monitoring Patterns
 
-### **Comprehensive Health Check**
+### Comprehensive Health Check
 
 ```typescript
 // System health assessment
@@ -200,7 +200,7 @@ export async function performHealthCheck(
 }
 ```
 
-### **File System Permissions Check**
+### File System Permissions Check
 
 ```typescript
 // Verify read/write permissions
@@ -240,7 +240,7 @@ async function checkFileSystemPermissions(
 
 ## 📊 Metadata Scanning Patterns
 
-### **File Metadata Collection**
+### File Metadata Collection
 
 ```typescript
 // Comprehensive file metadata gathering
@@ -290,7 +290,7 @@ export async function collectFileMetadata(
 }
 ```
 
-### **Batch Metadata Scanning**
+### Batch Metadata Scanning
 
 ```typescript
 // Efficient metadata collection for all files
@@ -318,7 +318,7 @@ export async function scanAllFileMetadata(
 
 ## 🔄 Change Detection Patterns
 
-### **File Change Monitoring**
+### File Change Monitoring
 
 ```typescript
 // Detect changes since last scan
@@ -369,7 +369,7 @@ export async function detectChanges(
 }
 ```
 
-### **Smart Cache Invalidation**
+### Smart Cache Invalidation
 
 ```typescript
 // Intelligent cache invalidation based on changes
@@ -395,4 +395,4 @@ export function invalidateChangedFiles(
 
 ---
 
-> Last updated: 6 June 2025
+> Last updated: 8 June 2025

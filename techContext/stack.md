@@ -1,6 +1,6 @@
 # Technology Stack
 
-> Technology choices and implementation decisions for AI Memory Extension
+Technology choices and implementation decisions for AI Memory Extension
 
 ## Core Technology Decisions
 
@@ -157,5 +157,4 @@
 
 **Cross-References**: #typescript #tsgo #rollup #swc #vite #biome #vitest #performance #native-compilation
 
-**See Also**: @002-build-system-tooling.mdc for actionable rules, docs/build-configuration.md for
-implementation details
+**See Also**: @002-build-system-tooling.mdc for actionable rules, docs/build-configuration.md for implementation details
