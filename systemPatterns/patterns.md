@@ -77,7 +77,6 @@ class MemoryBankServiceCore implements MemoryBank {
   constructor(
     private readonly memoryBankPath: string,
     private readonly logger: Logger,
-    private readonly cacheManager: CacheManager,
     private readonly streamingManager: StreamingManager,
     private readonly fileOperationManager: FileOperationManager,
   ) {}
@@ -203,17 +202,6 @@ class StreamingManager {
     const stats = await this.getFileStats(filePath);
     const strategy = stats.size >= this.sizeThreshold ? "streaming" : "normal";
     return this.executeStrategy(strategy, filePath, stats);
-  }
-}
-```
-
-### Cache Management ✅
-
-```typescript
-class CacheManager {
-  getCachedContent(filePath: string, stats: Stats): string | null {
-    const entry = this.cache.get(filePath);
-    return entry && !this.isExpired(entry, stats) ? entry.content : null;
   }
 }
 ```

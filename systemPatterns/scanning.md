@@ -90,7 +90,7 @@ export async function validateMemoryBankDirectory(
 export async function validateMemoryBankFile(
   fileType: MemoryBankFileType,
   context: FileOperationContext
-): Promise<{ isValid: boolean; shouldInvalidateCache: boolean }> {
+): Promise<{ isValid: boolean }> {
   const filePath = path.join(context.memoryBankPath, fileType)
 
   try {
@@ -98,27 +98,27 @@ export async function validateMemoryBankFile(
 
     if (!stats.success) {
       context.logger.debug(`File does not exist: ${fileType}`)
-      return { isValid: false, shouldInvalidateCache: false }
+      return { isValid: false }
     }
 
     // Check if file is readable
     const readResult = await context.fileOperationManager.readFile(filePath)
     if (!readResult.success) {
       context.logger.warn(`File exists but is not readable: ${fileType}`)
-      return { isValid: false, shouldInvalidateCache: true }
+      return { isValid: false }
     }
 
     // Validate file content structure
     const contentValidation = validateFileContent(fileType, readResult.data)
     if (!contentValidation.isValid) {
       context.logger.warn(`File content validation failed: ${fileType}`)
-      return { isValid: false, shouldInvalidateCache: true }
+      return { isValid: false }
     }
 
-    return { isValid: true, shouldInvalidateCache: false }
+    return { isValid: true }
   } catch (error) {
     context.logger.error(`Error validating file ${fileType}: ${error}`)
-    return { isValid: false, shouldInvalidateCache: true }
+    return { isValid: false }
   }
 }
 ```
@@ -129,9 +129,8 @@ export async function validateMemoryBankFile(
 // Validate all memory bank files efficiently
 export async function validateAllMemoryBankFiles(
   context: FileOperationContext
-): Promise<{ missingFiles: string[]; filesToInvalidate: string[] }> {
+): Promise<{ missingFiles: string[] }> {
   const missingFiles: string[] = []
-  const filesToInvalidate: string[] = []
 
   // Get all expected file types
   const allFileTypes = getAllMemoryBankFileTypes()
@@ -144,20 +143,16 @@ export async function validateAllMemoryBankFiles(
       missingFiles.push(fileType)
     }
 
-    if (result.shouldInvalidateCache) {
-      filesToInvalidate.push(fileType)
-    }
-
     return { fileType, ...result }
   })
 
   await Promise.all(validationPromises)
 
   context.logger.info(
-    `Validation complete: ${missingFiles.length} missing, ${filesToInvalidate.length} to invalidate`
+    `Validation complete: ${missingFiles.length} missing`
   )
 
-  return { missingFiles, filesToInvalidate }
+  return { missingFiles }
 }
 ```
 
@@ -182,19 +177,9 @@ export async function performHealthCheck(
   const completeness = missingFiles.length === 0
   healthReport.push(`File Completeness: ${completeness ? '✅ Complete' : `❌ Missing ${missingFiles.length} files`}`)
 
-  // 3. Cache health
-  const cacheStats = context.cacheManager.getStats()
-  const cacheHealth = cacheStats.hitRate > 0.7 // 70% hit rate threshold
-  healthReport.push(`Cache Performance: ${cacheHealth ? '✅ Good' : '⚠️ Poor'} (${(cacheStats.hitRate * 100).toFixed(1)}% hit rate)`)
-
   // 4. File system permissions
   const permissionsHealth = await checkFileSystemPermissions(context)
   healthReport.push(`Permissions: ${permissionsHealth ? '✅ Valid' : '❌ Invalid'}`)
-
-  // 5. Memory usage health
-  const memoryUsage = process.memoryUsage()
-  const memoryHealth = memoryUsage.heapUsed < 100 * 1024 * 1024 // 100MB threshold
-  healthReport.push(`Memory Usage: ${memoryHealth ? '✅ Normal' : '⚠️ High'} (${(memoryUsage.heapUsed / 1024 / 1024).toFixed(1)}MB)`)
 
   return healthReport.join('\n')
 }

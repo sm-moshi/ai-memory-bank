@@ -16,7 +16,6 @@ AI Memory Extension (VSIX)
 ├── Core Services ✅
 │   ├── MemoryBankServiceCore ✅    # Core business logic
 │   ├── FileOperationManager ✅     # Safe file I/O operations
-│   ├── CacheManager ✅             # Performance optimization
 │   └── StreamingManager ✅         # Large file handling
 │
 ├── MCP Server (stdio) ✅
@@ -40,7 +39,6 @@ class MemoryBankServiceCore {
   constructor(
     private readonly memoryBankPath: string,      # Base path
     private readonly logger: Logger,              # Logging abstraction
-    private readonly cacheManager: CacheManager,  # Performance layer
     private readonly streamingManager: StreamingManager, # Large files
     private readonly fileOperationManager: FileOperationManager # Safe I/O
   ) {}
@@ -203,12 +201,10 @@ Extension → Webview: postMessage({ type: "response", data })
 // Metadata layer integration:
 Memory Bank Core
 ├── File Operations (Working ✅)
-├── Cache Management (Working ✅)
 ├── Streaming (Working ✅)
 └── Metadata Layer (Prototype 🧪)
     ├── Index Management
     ├── Search Processing
-    ├── Validation Engine
     └── MCP Tool Interface
 ```
 
