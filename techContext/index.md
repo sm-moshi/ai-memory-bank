@@ -1,28 +1,18 @@
 # Tech Context Index
 
-## 🚀 Current Technology Stack
+> Summary of technology stack, environment setup, and technical constraints
 
-### **Runtime & Build**
+## Technology Stack
 
-- **Node.js**: 20.19.0+ | **TypeScript**: 5.8.3 | **pnpm**: 10.11.1
-- **Build**: Rollup 4.42.0 + SWC (~600ms) | **Quality**: Biome 1.9.4
+See [`stack.md`](./stack.md) for full details.
 
-### **Frontend & Testing**
+## Dependencies
 
-- **React**: 19.1.0 + Tailwind 4.1.8 | **Build**: Vite 6.3.5
-- **Testing**: Vitest 3.2.2 + MSW 2.10.0 | **Coverage**: >90%
+See [`dependencies.md`](./dependencies.md) for major runtime and dev dependencies.
 
-### **Dependencies**
+## Environment
 
-- **Production**: 3 total (MCP SDK, Zod, gray-matter)
-- **Bundle**: 405KB extension (106KB gzipped), <1MB webview
-
-### **Status**: ✅ All systems operational
+See [`environment.md`](./environment.md) for local & CI setup.
 
 ---
-
-📁 **Detailed Documentation:**
-
-- **[stack.md](./stack.md)** - Technology choices and rationale
-- **[environment.md](./environment.md)** - Development setup guide
-- **[dependencies.md](./dependencies.md)** - Dependency management
+> *Last updated: 2025-06-11*
