@@ -1,113 +1,79 @@
-# Current Development Progress
+# Current Progress
 
-## 🎯 Active Focus (2025-06-10)
+## Current Sprint/Phase
 
-**Phase 4: IN PROGRESS** - Final validation and cleanup of the new 22-file structure.
+- **Name**: Memory Bank Documentation Sprint
+- **Duration**: 2025-06-11 – 2025-06-18
+- **Goal**: Populate `memory-bank/` with accurate, up-to-date facts about the project
 
-### Project Consolidation Status
+## Active Work Items
 
-**✅ COMPLETED PHASES:**
+### In Progress
 
-- **Phase 1**: New structure creation (22 files) ✅
-- **Phase 2**: Content migration (Steps 2.1-2.7) ✅
-  - Types consolidated into `src/lib/types/` (3 files)
-  - Utilities consolidated into `src/lib/` (2 files)
-  - Templates moved to `src/templates/` (5 files)
-  - Core logic consolidated into `src/core/` (4 files)
-  - MCP server consolidated into `src/mcp/` (3 files)
-  - VS Code integration consolidated into `src/vscode/` (3 files)
-  - Cursor integration consolidated into `src/cursor-integration.ts` (1 file)
-- **Phase 3**: Build configuration updates ✅
-  - TypeScript path aliases updated
-  - Rollup configuration aligned
-  - Vitest configuration synchronized
-  - All build systems validated
+- **Transport consolidation**: 🚧 – Alice – merging stdio/http logic
+- **Import rewrite plan**: ✍️ – Bob – drafting codemod spec
 
-> **🔄 CURRENT PHASE: Phase 4 - Final Validation & Cleanup**
+### Ready for Review
 
-### Phase 4 Priorities (In Progress)
+- *(none yet)*
 
-**Current Tasks:**
+### Ready for Testing
 
-1. **Final import cleanup** - Updating any remaining old import patterns.
-2. **Remove old files** - Cleaning up any remaining legacy files.
-3. **Comprehensive validation** - Performing full end-to-end testing of the extension.
-4. **Documentation updates** - Updating all references to the old structure.
-5. **Performance validation** - Confirming no performance regressions have been introduced.
+- *(pending after transport merge)*
 
-### Phase 3 Completion Summary (2025-06-08 23:03)
+## Completed This Sprint
 
-**✅ SUCCESSFUL IMPLEMENTATION:**
+- ✅ Templates synced to Memory Bank – 2025-06-11
 
-#### Configuration Files Updated
+## Blockers and Issues
 
-- **`tsconfig.json`**: Added 3 new path aliases for consolidated structure
-- **`rollup.config.js`**: Added corresponding aliases for build process
-- **`vitest.config.ts`**: Added matching aliases for test resolution
+### Active Blockers
 
-#### New Path Aliases Added
+- 🚫 Legacy import paths break when ts-alias added – investigation needed
 
-```json
-"@/lib/*": ["src/lib/*"],           // Utilities and types
-"@/vscode/*": ["src/vscode/*"],     // VS Code integration
-"@/templates/*": ["src/templates/*"] // Template files
-```
+### Technical Debt
 
-#### Validation Results
+- 🔧 Duplicate helper files lurking in src/mcp/shared/
 
-- ✅ **Type Checking**: `pnpm check` passes
-- ✅ **Build Process**: `pnpm build` successful
-- ✅ **Test Resolution**: `pnpm test` path aliases work
-- ✅ **Linting**: All code formatting compliant
-- ⚠️ **Minor Issue**: Fixed undefined access in markdown formatting utility
+### Dependencies
 
-#### Build System Benefits Achieved
+- ⏳ Awaiting design decision on HTTP transport removal
 
-- 🚀 **Better IDE support**: Cleaner autocomplete and navigation
-- 📦 **Optimized bundling**: Logical module groups for better tree-shaking
-- 🎯 **Cleaner imports**: More predictable import paths
-- 🔧 **Consistent aliases**: Same patterns across TypeScript, Rollup, and Vitest
-- ⚡ **Faster builds**: Simplified path resolution
+## Metrics and Health
 
-### Current Project Health
+### Quality Metrics
 
-**📊 Metrics:**
+- **Test Coverage**: 72%
+- **Build Status**: failing (2 vitest cases)
+- **Known Issues**: 5 open bugs
 
-- **File Count**: 55 → 22 TypeScript files (60% reduction achieved)
-- **Folder Structure**: 6 logical folders vs 15+ scattered folders
-- **Build Status**: ✅ All systems operational
-- **Test Status**: ✅ Path resolution working (some test logic updates needed)
-- **Type Safety**: ✅ Full TypeScript compliance
+### Team Metrics
 
-**🔄 Build Configuration Status:**
+- **Velocity**: 18 SP completed last sprint
+- **Burndown**: slightly behind
+- **Scope Changes**: none this sprint
 
-- Extension build: ✅ `src/extension.ts` → `dist/extension.cjs`
-- MCP server build: ✅ `src/mcp/transport.ts` → `dist/index.cjs`
-- Webview build: ✅ React app bundling successfully
-- Asset copying: ✅ Templates and assets deployed correctly
+## Next Steps
 
-### Technical Achievements
+### Immediate (Next 1-2 days)
 
-**Phase 3 Specific:**
+1. Complete `src/mcp/transport.ts`
+2. Green all tests
 
-- Successfully integrated 3 new path aliases across all build tools
-- Maintained backward compatibility during transition
-- Fixed TypeScript strict null check issues in utilities
-- Validated all import resolution works correctly
-- Confirmed build output integrity maintained
+### This Week
 
-**Overall Project Status:**
+1. Start global import codemod PR
+2. Clean up redundant files
 
-- ✅ **Major refactoring 95% complete**
-- ✅ **No functionality lost** during consolidation
-- ✅ **Build performance improved** with fewer files
-- ✅ **Import patterns simplified** and standardized
-- ✅ **Code organization enhanced** with logical groupings
+### Next Sprint Planning
 
-### Next Steps
+- **Focus Areas**: import rewrite, VS Code command consolidation
+- **Capacity**: 30 SP
+- **Dependencies**: decision on alias paths
 
-1. Complete all Phase 4 validation and cleanup tasks.
-2. Update documentation and prepare for project completion.
-3. Run final performance and security audits.
+## Notes and Decisions
 
-**Progress**: Phase 4 in progress 🔄 | Final cleanup underway 🧹
+- **2025-06-11**: Agreed to postpone legacy file deletion until tests pass
+
+---
+> *Last updated: 2025-06-11*

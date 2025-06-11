@@ -1,240 +1,44 @@
 # System Architecture
 
-Real architecture patterns validated through comprehensive implementation audit
+A factual overview of how the AI Memory extension is structured, based on the current source tree (🗂 `src/`) and build outputs (📦 `dist/`).
 
-## 🏗️ Overall Architecture Status: 85% Aligned ✅
+## High-Level View
 
-### Validated Implementation Architecture
+| Layer | Key Modules | Responsibilities |
+|-------|-------------|-------------------|
+| **VS Code / Cursor Extension** | `src/extension.ts`, `src/vscode/**` | Activates on VS Code events, registers commands (`aimemory.*`), embeds webview, launches MCP server adapter. |
+| **MCP Server** | `src/mcp/server.ts`, `src/mcp/tools.ts`, `src/mcp/transport.ts` | Provides model-context protocol (MCP) interface over **STDIO**. Hosts tools/resources for the memory bank. Builds to `dist/index.cjs`. |
+| **Core Services** | `src/core/*` | File operations (`FileOperationManager`), optional tiered loading (hot/warm/cold), secure memory-bank access (`MemoryBankManager`). |
+| **Cursor Integration** | `src/cursor/**`, `src/cursor-integration.ts` | Updates `~/.cursor/mcp.json`, registers Cursor-specific prompts, rules, and commands. |
+| **Webview Dashboard** | `src/webview/**` (React 19 + Tailwind 4) | UI for browsing & editing the memory bank via structured `postMessage` channel. Compiled by Vite to `media/` assets included in the VSIX. |
 
-```md
-AI Memory Extension (VSIX)
-├── Extension Host (VS Code)
-│   ├── CommandHandler ✅           # VS Code command processing
-│   ├── WebviewManager ✅           # React UI integration
-│   └── MemoryBankService ✅        # Extension-specific logic
-│
-├── Core Services ✅
-│   ├── MemoryBankServiceCore ✅    # Core business logic
-│   ├── FileOperationManager ✅     # Safe file I/O operations
-│   └── StreamingManager ✅         # Large file handling
-│
-├── MCP Server (stdio) ✅
-│   ├── BaseMCPServer ✅            # Common MCP functionality
-│   ├── MemoryBankMCPAdapter ✅     # Core tools adapter
-│   └── MetadataToolRegistrar 🧪    # Metadata tools (not production-ready)
-│
-└── Webview (React 19) ✅
-    ├── Status Components ✅        # Memory bank status
-    ├── MCP Server Manager ✅       # Server management UI
-    └── How Does It Work ✅         # User documentation
+## Component Interaction
+
+```
+Extension (VS Code) ─┬─► MemoryBankMCPAdapter ─► MCP Server (STDIO)
+                    │
+                    └─► WebviewProvider ⇄ Webview UI (React)
+                               │
+                               └─► MemoryBankManager (via adapter calls)
 ```
 
-## 🎯 Service Layer Architecture ✅
+1. When the user runs **"AI Memory: Start MCP Server"**, the extension spawns the in-process MCP server using the adapter.
+2. The MCP server exposes **tools** (e.g., `read_file`, `update_file`) that operate on the memory-bank via `MemoryBankManager`.
+3. Cursor connects over STDIO (`model_context_protocol`) and can invoke those tools.
+4. The webview UI exchanges JSON-validated messages with the extension to read/write memory-bank files.
 
-### Dependency Injection Pattern
+## Security & Validation
 
-```typescript
-// Proven constructor pattern:
-class MemoryBankServiceCore {
-  constructor(
-    private readonly memoryBankPath: string,      # Base path
-    private readonly logger: Logger,              # Logging abstraction
-    private readonly streamingManager: StreamingManager, # Large files
-    private readonly fileOperationManager: FileOperationManager # Safe I/O
-  ) {}
-}
-```
+- **Path Validation**: `validateMemoryBankPath` ensures all file accesses remain inside the workspace or explicit `memory-bank/` root.
+- **Schema Validation**: Zod schemas guard webview messages (`WebviewFileOperationSchema`).
+- **Retry & Back-off**: `FileOperationManager` wraps fs operations with retries, exponential back-off, and time-outs.
 
-**Benefits Validated:**
+## Build & Deployment Outputs
 
-- ✅ **Testability**: Easy to mock dependencies in unit tests
-- ✅ **Separation of Concerns**: Each service has single responsibility
-- ✅ **Reusability**: Core logic used by both MCP server and VS Code extension
-- ✅ **Error Isolation**: Failures contained within service boundaries
-
-### Error Boundary Architecture ✅
-
-```typescript
-// Layered error handling:
-Application Layer (VS Code/MCP)
-├── Validation Errors (Zod schemas) → User-friendly messages
-├── Business Logic Errors (MemoryBankError) → Structured error responses
-├── File System Errors (FileError) → Retry logic + fallbacks
-└── System Errors (unknown) → Logged + generic user message
-```
-
-**Error Flow Validation:**
-
-- ✅ **MCP Tools**: All use `ensureMemoryBankReady()` + `createErrorResponse()`
-- ✅ **File Operations**: Proper retry logic with exponential backoff
-- ✅ **Parameter Validation**: Zod schemas with clear validation messages
-- ✅ **Self-Healing**: Template creation for missing files
-
-## 📁 File System Architecture
-
-### Current Implementation ✅
-
-```typescript
-// Single-tier file loading:
-async loadFiles(): Promise<AsyncResult<FileOperationResults, MemoryBankError>> {
-  // Loads all files equally via FileOperationManager
-  // Uses caching and streaming based on file size
-}
-```
-
-### Target Architecture 🔄 (Roadmap)
-
-```typescript
-// Tiered file access architecture:
-Memory Bank File System
-├── Hot Tier (Immediate Loading)
-│   ├── core/projectBrief.md
-│   ├── core/activeContext.md
-│   └── progress/current.md
-├── Warm Tier (On-Demand Loading)
-│   ├── systemPatterns/index.md
-│   ├── techContext/index.md
-│   └── progress/index.md
-└── Cold Tier (Streaming/Chunked)
-    ├── Large files (>30KB)
-    ├── Historical data
-    └── Generated content
-```
-
-**Implementation Path:**
-
-1. **Phase 1**: Add file categorization constants
-2. **Phase 2**: Implement `loadFilesByPriority()` method
-3. **Phase 3**: Integrate with existing StreamingManager for cold files
-
-## 🔧 MCP Server Architecture ✅
-
-### Protocol Implementation
-
-```typescript
-// Proven MCP server pattern:
-export class BaseMCPServer {
-  protected memoryBank: MemoryBankServiceCore;  # Service dependency
-
-  async handleRequest(request: JSONRPCRequest): Promise<JSONRPCResponse> {
-    // Standard error boundary + tool routing
-    const result = await ensureMemoryBankReady(this.memoryBank);
-    if (isError(result)) {
-      return createErrorResponse(result.error, "server_operation");
-    }
-    // Tool execution with validation
-  }
-}
-```
-
-### Tool Registration Architecture ✅
-
-```typescript
-// Factory pattern for tool creation:
-const coreTools = [
-  createMemoryBankTool("read-memory-bank-files", readHandler, "Core file reading"),
-  createMemoryBankTool("update-memory-bank-file", updateHandler, "File updates"),
-  createMemoryBankTool("health-check-memory-bank", healthHandler, "Health monitoring")
-];
-
-// Metadata tools (when production-ready):
-const metadataTools = [
-  createMetadataTool("query-memory-index", queryHandler),
-  createMetadataTool("validate-memory-file", validateHandler),
-  createMetadataTool("rebuild-metadata-index", rebuildHandler)
-];
-```
-
-**Tool Architecture Status:**
-
-- ✅ **Core Tools**: Production-ready with comprehensive validation
-- 🧪 **Metadata Tools**: Implemented but failing tests, not production-validated
-- 🔄 **Advanced Tools**: Planned for future releases
-
-## 🖥️ Webview Architecture ✅
-
-### React 19 Component Architecture
-
-```typescript
-// Proven component structure:
-src/webview/src/
-├── components/
-│   ├── status/                    # Memory bank status display
-│   │   ├── index.tsx ✅          # Main status component
-│   │   ├── memory-bank-status.tsx ✅  # Memory bank specific status
-│   │   └── rules-status.tsx ✅   # Rule system status
-│   ├── mcp-server-manager/ ✅    # MCP server management
-│   └── how-does-it-work/ ✅      # Documentation component
-├── hooks/
-│   └── useMCPServerDetection.ts ✅  # Server status monitoring
-└── types/ ✅                    # TypeScript definitions
-```
-
-### Message Passing Architecture ✅
-
-```typescript
-// Extension ↔ Webview communication:
-interface WebviewToExtensionMessage {
-  command: string;
-  [key: string]: unknown;
-}
-
-// Proven message flow:
-Webview → Extension: postMessage({ command: "action", params })
-Extension → Webview: postMessage({ type: "response", data })
-```
-
-## 🧪 Metadata System Architecture (Not Production-Ready)
-
-### Current Implementation Status
-
-- ✅ **MetadataIndexManager**: Full search indexing implementation
-- ✅ **MetadataSearchEngine**: Query processing with filters
-- ✅ **MetadataToolRegistrar**: 5 comprehensive MCP tools
-- ❌ **Test Validation**: Many mock tests failing
-- ❌ **Integration Testing**: No end-to-end validation
-- ❌ **VSIX Testing**: No real extension testing
-
-### Architecture When Stabilized
-
-```typescript
-// Metadata layer integration:
-Memory Bank Core
-├── File Operations (Working ✅)
-├── Streaming (Working ✅)
-└── Metadata Layer (Prototype 🧪)
-    ├── Index Management
-    ├── Search Processing
-    └── MCP Tool Interface
-```
-
-## 🔄 Development Architecture Priorities
-
-### Immediate Focus Areas
-
-1. **Metadata System Debugging** 🧪
-   - Fix failing mock tests
-   - Add integration testing
-   - Validate with real VSIX builds
-
-2. **File Access Optimization** 🔄
-   - Implement hot/warm/cold loading
-   - Leverage existing StreamingManager infrastructure
-   - Add performance monitoring
-
-3. **End-to-End Testing** ❌
-   - Real VSIX packaging and installation
-   - Production debugging workflows
-   - Integration testing across all layers
-
-### Architecture Validation Approach
-
-- ✅ **Service Layer**: Proven dependency injection pattern
-- ✅ **Error Boundaries**: Comprehensive error handling validated
-- ✅ **Security**: Path validation and input sanitization working
-- 🔄 **Performance**: Tiered loading architecture planned
-- 🧪 **Metadata**: Full implementation needs production validation
+| Artefact | Purpose |
+|----------|---------|
+| `dist/extension.cjs` | Extension entry loaded by VS Code/Cursor. |
+| `dist/index.cjs` | Stand-alone MCP server for Cursor CLI integration. |
 
 ---
-
-> Updated: 2025-06-08 - Architecture status validated through comprehensive codebase audit
+> _Last updated: 2025-06-11_
